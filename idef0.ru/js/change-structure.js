@@ -3,12 +3,15 @@ function ChangeStructure(){
     $('#removable').html("<div id='d3ne' class='node-editor'></div>");
     switch($("#Combobox")[0].selectedIndex)
     {
+        
         case 0:
-        switch($("#Change-Language").selectedIndex){
+        alert("зашли в свитч структуры");
+        alert("combobox: " + $("#Combobox")[0].selectedIndex);
+        alert("change langiage : "+ $("#Change-Language")[0].selectedIndex);
+        switch($("#Change-Language")[0].selectedIndex){
             case 0:
             var components = [arrayComp,sumComp,maxComp,minComp, delComp,kolComp,srComp, sortComp];
             var menu = new D3NE.ContextMenu({
-                        'Число': numComp, 
                         'Массив' : arrayComp,
                         'Сумма': sumComp,
                         'Максимум': maxComp,
@@ -18,9 +21,23 @@ function ChangeStructure(){
                         'Среднее' : srComp,
                         'Сортировка':sortComp
                });
+            var container = document.querySelector('#d3ne');
+            var editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
             break;
             case 1:
-            
+            var components = [listComp,sumCompProlog,maxCompProlog,minCompProlog, delCompProlog,kolCompProlog,srCompProlog, sortCompProlog];
+            var menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompProlog,
+                        'Максимум': maxCompProlog,
+                        'Минимум':minCompProlog,
+                        'Удаление': delCompProlog,
+                        'Количество': kolCompProlog,
+                        'Среднее' : srCompProlog,
+                        'Сортировка':sortCompProlog
+               });
+               var container = document.querySelector('#d3ne');
+            var editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
             break;
             }
         break;
@@ -31,6 +48,8 @@ function ChangeStructure(){
                         'Список': listComp, 
                         'Сумма': sumCompList,
             });
+            var container = document.querySelector('#d3ne');
+            var editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
         break;
 
         case 2: //строка
@@ -42,13 +61,11 @@ function ChangeStructure(){
         break;
         
     }
-    var container = document.querySelector('#d3ne');
-        var editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
+    
 }
 
 function ChangeLanguage(){
-    $('#d3ne').remove();
-    $('#removable').html("<div id='d3ne' class='node-editor'></div>");
+
     objSel = document.getElementById("Combobox");
     switch($("#Change-Language")[0].selectedIndex)
     {
@@ -64,6 +81,7 @@ function ChangeLanguage(){
         case 1:
         objSel.options.length = 0;
         objSel.options[0] = new Option("Список");
+        ChangeStructure();
         break;
         case 2: 
         objSel.options.length = 0;

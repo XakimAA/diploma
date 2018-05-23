@@ -93,6 +93,66 @@ function code(name)
 }\n"
     break;
 //#endregion
+
+//#region prolog
+    case "list_prolog_sum":
+    return "sum([], 0).\n\
+sum([H | T], S) :-\n\
+sum(T, S1),\n\
+S = H + S1.\n"
+    break;
+    case "list_prolog_max":
+    return "max([X], X).\n\
+max([X, Y | T], Max) :-\n\
+X <= Y,\n\
+max([Y | T], Max).\n\
+max([X, Y | T], Max) :-\n\
+X > Y,\n\
+max([X | T], Max).\n"
+    break;list_prolog_min
+    case "list_prolog_min":
+    return "min([X], X).\n\
+min ([X, Y | T], Min) :-\n\
+X > Y,\n\
+min ([Y | T], Min).\n\
+min ([X, Y | T], Min) :-\n\
+X <= Y,\n\
+min ([X | T], Min).\n"
+    break;
+    case "list_prolog_del":
+    return "del([], _, []).\n\
+del([X | T], X, T1) :-\n\
+!,\n\
+del(T, X, T1).\n\
+del([H | T], X, [H | T1]) :-\n\
+X <> H,\n\
+del(T, X, T1).\n"
+    break;
+    case "list_prolog_kol":
+    return "kol([], 0).\n\
+kol([_ | T], K) :-\n\
+kol(T, K1),\n\
+K = K1 + 1.\n"
+    break;
+    case "list_prolog_sr":
+    return "sra(X, Y, N) :-\n\
+    N = X / Y.\n"
+    break;
+    case "list_prolog_sort":
+    return "gt(X, Y) :-\n\
+    X > Y.\n\
+bubblesort(List, Sorted) :-\n\
+    swap(List, List1),\n\
+    !,\n\
+    bubblesort(List1, Sorted).\n\
+bubblesort(Sorted, Sorted).\n\
+swap([X, Y | T], [Y, X | T]) :-\n\
+    gt(X, Y).\n\
+swap([Z | T], [Z | T1]) :-\n\
+    swap(T, T1).\n"
+    break;
+//#endregion
+
     case "dadsa":
     break;
     }
