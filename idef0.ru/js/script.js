@@ -94,8 +94,7 @@ var listComp = new D3NE.Component('Список',{
         return node
             .addOutput(listOut)
             .addControl(arrayControl);
-}});
-
+ }});
 
 var sumComp = new D3NE.Component("Сумма", {
     builder(node) {
