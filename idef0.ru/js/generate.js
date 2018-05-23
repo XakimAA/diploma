@@ -6,9 +6,9 @@
 var listComplited = [];
 var listTemp = [];
 var listAll = [];
-
+var codestr = "";
 var noerror; 
-
+var main;
 function find(array, value) {
     if ([].indexOf) {
 
@@ -50,13 +50,16 @@ function Generate(){
 				//alert("тут ошибка");
 		}
 		else
-		if (!aisle())
-			codestr = "ошибка в диаграмме";
-		else
-			codestr += main + "\t _getch();\n}";
-		//alert(main);
-		var str = $("#ProgramCode");
-		str.html(codestr);
+		{
+
+	if (!aisle())
+		codestr = "ошибка в диаграмме";
+	else
+		codestr += main + "\t _getch();\n}";
+	//alert(main);
+	var str = $("#ProgramCode");
+	str.html(codestr);
+		}
 	}
 
 function compliteData(){
@@ -86,7 +89,15 @@ function recursia(tempNode){
 
 function GenerateC()
 {
-	
+	var codestr = "";
+	var main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
+	if (!aisle())
+		codestr = "ошибка в диаграмме";
+	else
+		codestr += main + "\t _getch();\n}";
+	//alert(main);
+	var str = $("#ProgramCode");
+	str.html(codestr);
 }
 
 
@@ -152,51 +163,71 @@ function tempNodeWork(){
 
 }
 
-function SwitchFunction(tempNode){
-	switch(tempNode.title){
+function SwitchFunction(tempNode){	
+	if (tempNode.controls != 0)
+	for (var i in tempNode.data)
+	{
+		main += "\t" + tempNode.dataType[i] + " "
+		 + tempNode.data[i] + ";\n";
+	}
+	main += "\t" + tempNode.nameFunction + "(";
+	for (var i=0; i<tempNode.inputs.length;i++)
+	{
+		if (i != 0) main += ", ";
+		main += listAll[tempNode.inputs[i].connections[0].node].data[tempNode.inputs[i].connections[0].output];
+	}
+	if (tempNode.controls != 0)
+	for (var i in tempNode.data)
+	{
+		main += ", " + tempNode.data[i];
+	}
+	main += ");\n";
+	codestr += code(tempNode.describe);
+	/*switch(tempNode.title){
 		case "Максимум":
 			//alert("Заполнение максимума");
 			main +="\tint " + tempNode.data[0] + ";\n";
-			main += "\tmax(" + listAll[tempNode.inputs[0].connections[0].node].data[0] +", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[1]+", "
-			+ tempNode.data[0]+");\n";
+			main += "\tmax(" + listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] +", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output]+", "
+			+ tempNode.data[0] +");\n";
 			codestr += code("mas_c_max");
 		break;
 		case "Минимум":
 			//alert("Заполнение максимума");
 			main +="\tint " + tempNode.data[0] + ";\n";
-			main += "\tmin(" + listAll[tempNode.inputs[0].connections[0].node].data[0] +", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[1]+", "
-			+ tempNode.data[0]+");\n";
+			main += "\tmin(" + listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] +", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output]+", "
+			+ tempNode.data[0] +");\n";
 			codestr += code("mas_c_min");
 		break;
 		case "Сумма":
 			main +="\tint " + tempNode.data[0] + ";\n";
-			main += "\tsum(" + listAll[tempNode.inputs[0].connections[0].node].data[0] +", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[1]+", "
+			main += "\tsum(" + listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] +", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output]+", "
 			+ tempNode.data[0] +");\n";
 			codestr += code("mas_c_sum");
 		break;
 		case "Удаление":
 			main += "\tint " + tempNode.data[1] + ";\n"; 
-			main += "\tint *" + tempNode.data[0] + " = new int["+ listAll[tempNode.inputs[2].connections[0].node].data[0] +"];\n";
-			main += "\tdel("+ listAll[tempNode.inputs[0].connections[0].node].data[0] +", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[1]+", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[0]+", "
+			main += "\tint *" + tempNode.data[0] + " = new int["+ listAll[tempNode.inputs[2].connections[0].node].data[tempNode.inputs[2].connections[0].output] +"];\n";
+			main += "\tdel("+ listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] +", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output]+", "
+			+ listAll[tempNode.inputs[2].connections[0].node].data[tempNode.inputs[2].connections[0].output]+", "
 			+ tempNode.data[0]+", "
 			+ tempNode.data[1] +");\n"
 			codestr += code("mas_c_del");
+		break;
 		case "Количество":
 			main +="\tint " + tempNode.data[0] + ";\n";
-			main +="\tkol(" +  listAll[tempNode.inputs[0].connections[0].node].data[0] +", "
-			+ listAll[tempNode.inputs[0].connections[0].node].data[1]+", "
+			main +="\tkol(" +  listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] +", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output]+", "
 			+ tempNode.data[0] +");\n";
 			codestr += code("mas_c_kol");
 		break;
 		case "Среднее":
 			main += "\tdouble " + tempNode.data[0] + ";\n";
 			main += "\tsra(" + listAll[tempNode.inputs[0].connections[0].node].data[tempNode.inputs[0].connections[0].output] + ", "
-			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[0].connections[0].output] + ", "
+			+ listAll[tempNode.inputs[1].connections[0].node].data[tempNode.inputs[1].connections[0].output] + ", "
 			+ tempNode.data[0] + ");\n";
 			codestr += code("mas_c_sr");
 		break;
@@ -204,7 +235,7 @@ function SwitchFunction(tempNode){
 			main += "\tbubbleSort(" + tempNode.data[0] + ", "+ tempNode.data[1] + ");\n";
 			codestr += code("mas_c_sort");
 		break;
-	}
+	}*/
 }
 
 function SwitchWithoutInput(tempNode){

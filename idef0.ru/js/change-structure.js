@@ -46,6 +46,6 @@ function ChangeLanguage(){
 
     switch($("#Change-Language")[0].selectedIndex)
     {
-
+        
     }
 }

@@ -1659,7 +1659,11 @@ var Node = function (_Block) {
                     return output.toJSON();
                 }),
                 'position': this.position,
-                'title': this.title
+                'title': this.title,
+                'dataType' : this.dataType,
+                'describe' : this.describe,
+                'nameFunction' : this.nameFunction,
+                'controls' : this.controls.length
             };
         }
     }], [{

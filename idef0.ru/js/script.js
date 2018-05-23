@@ -103,6 +103,9 @@ var arrayComp = new D3NE.Component('Массив',{
 
 var sumComp = new D3NE.Component("Сумма", {
     builder(node) {
+        node.nameFunction = "sum";
+        node.dataType = {0:"int"};
+        node.describe = "mas_c_sum";
   var sizeIn = new D3NE.Input("Размерность", numSocket);
   var arrayIn = new D3NE.Input("Массив", arraySocket);
   var resultOut = new D3NE.Output("Результат", numSocket);
@@ -132,6 +135,9 @@ var sumComp = new D3NE.Component("Сумма", {
 
 var sumCompList = new D3NE.Component("Сумма", {
     builder(node) {
+        node.nameFunction = "sum";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_sum";
       var listIn = new D3NE.Input("Список", listSocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
       var resultControl = new D3NE.Control('<input type="string">',
@@ -160,6 +166,9 @@ var sumCompList = new D3NE.Component("Сумма", {
 
 var maxComp = new D3NE.Component("Максимум", {
     builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"int"};
+        node.describe = "mas_c_max";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
@@ -188,6 +197,9 @@ var maxComp = new D3NE.Component("Максимум", {
 
 var minComp = new D3NE.Component("Минимум", {
     builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"int"};
+        node.describe = "mas_c_min";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
@@ -216,6 +228,9 @@ var minComp = new D3NE.Component("Минимум", {
 
 var delComp = new D3NE.Component("Удаление", {
     builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"int*", 1:"int"};
+        node.describe = "mas_c_del";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
       var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
@@ -269,6 +284,9 @@ var delComp = new D3NE.Component("Удаление", {
 
 var kolComp = new D3NE.Component("Количество", {
     builder(node) {
+        node.nameFunction = "kol";
+        node.dataType = {0:"int"};
+        node.describe = "mas_c_kol";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
@@ -297,6 +315,9 @@ var kolComp = new D3NE.Component("Количество", {
 
 var srComp = new D3NE.Component("Среднее", {
     builder(node) {
+        node.nameFunction = "sra";
+        node.dataType = {0:"int"};
+        node.describe = "mas_c_sra";
       var sumIn = new D3NE.Input("Сумма", numSocket);
       var kolIn = new D3NE.Input("Количество", numSocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
@@ -325,6 +346,9 @@ var srComp = new D3NE.Component("Среднее", {
 
 var sortComp = new D3NE.Component("Сортировка", {
     builder(node) {
+        node.nameFunction = "bubbleSort";
+        node.dataType = {0:"int*", 1: "int"};
+        node.describe = "mas_c_sort";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
       var sizeOut = new D3NE.Output("Размерность", numSocket);
