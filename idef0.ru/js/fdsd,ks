@@ -1,0 +1,56 @@
+% Copyright
+
+implement main
+    open core, console
+
+class predicates
+    bubblesort : (integer*, integer* [out]) determ.
+    swap : (integer*, integer* [out]) nondeterm.
+    gt : (integer, integer) determ.
+    find_max : (integer*, integer [out]) nondeterm.
+    del : (integer*, integer, integer* [out]) determ.
+
+clauses
+    gt(X, Y) :-
+        X > Y.
+    bubblesort(List, Sorted) :-
+        swap(List, List1),
+        !,
+        bubblesort(List1, Sorted).
+    bubblesort(Sorted, Sorted).
+    swap([X, Y | T], [Y, X | T]) :-
+        gt(X, Y).
+    swap([Z | T], [Z | T1]) :-
+        swap(T, T1).
+    find_max([X], X).
+    find_max([X, Y | T], Max) :-
+        X <= Y,
+        find_max([Y | T], Max).
+    find_max([X, Y | T], Max) :-
+        X > Y,
+        find_max([X | T], Max).
+    del([], _, []).
+    del([X | T], X, T1) :-
+        !,
+        del(T, X, T1).
+    del([H | T], X, [H | T1]) :-
+        X <> H,
+        del(T, X, T1).
+
+    run() :-
+        init(),
+        Wtf = [1, 2, 3, 4, 5, 20, 9, 10, 18, 1],
+        bubblesort(Wtf, Y),
+        find_max(Y, R),
+        del(Y, R, Ftw),
+        !,
+        write(Ftw),
+        nl,
+        _ = readline().
+    run() :-
+        console::write("Fail").
+
+end implement main
+
+goal
+    console::runUtf8(main::run).

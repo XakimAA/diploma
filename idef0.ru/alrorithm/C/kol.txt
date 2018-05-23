@@ -1,0 +1,4 @@
+void kol(int a[], int n, int &k)
+{
+	k = n;
+}

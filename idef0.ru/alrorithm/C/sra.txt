@@ -1,0 +1,4 @@
+void sra(int s, int k, double &sr)
+{
+	sr = (double)s / k;
+}

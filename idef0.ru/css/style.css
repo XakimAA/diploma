@@ -1,0 +1,49 @@
+html, body{
+    height: 100%;
+    margin: 0;
+ }
+ 
+.node-editor{ 
+   height: 100%;
+   width: 100%;
+ }
+ 
+ .socket.number{
+     background: lightgreen
+ }
+ .socket.array{
+    background: lightpink
+}
+
+.socket.list{
+    background: lightskyblue
+}
+ 
+ 
+ .control input {
+    width: 150px
+ }
+
+ .ControlsContainer{
+    display: flex;
+    height: 25px;
+    align-items: center;
+ }
+
+.flexBoxHolder{
+    display: flex;
+    flex-direction: row;
+    top: 100px;
+    bottom: 0;
+    height: calc(100% - 25px);  
+}
+
+#CodeWrapper {
+    flex: 1;
+}
+
+#removable{
+    height: 100%;
+    flex: 3;
+}
+

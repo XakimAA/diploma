@@ -1,0 +1,11 @@
+void min(int a[], int n, int &min)
+{
+	int i = 1;
+	min = a[0];
+	while (i < n)
+	{
+		if (a[i] < min)
+			min = a[i];
+		i++;
+	}
+}

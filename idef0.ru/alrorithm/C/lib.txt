@@ -1,0 +1,9 @@
+#include <stdio.h> 
+using namespace std;
+#include <String.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <conio.h>
+
+#define N 5
