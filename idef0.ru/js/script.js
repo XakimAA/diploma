@@ -226,7 +226,7 @@ var minComp = new D3NE.Component("Минимум", {
          .addControl(resultControl);
     }});     
 
-var delComp = new D3NE.Component("Удаление", {
+var delComp = new D3NE.Component("Удаление", {  
     builder(node) {
         node.nameFunction = "del";
         node.dataType = {0:"int*", 1:"int"};
@@ -347,7 +347,6 @@ var srComp = new D3NE.Component("Среднее", {
 var sortComp = new D3NE.Component("Сортировка", {
     builder(node) {
         node.nameFunction = "bubbleSort";
-        node.dataType = {0:"int*", 1: "int"};
         node.describe = "mas_c_sort";
       var sizeIn = new D3NE.Input("Размерность", numSocket);
       var arrayIn = new D3NE.Input("Массив", arraySocket);
