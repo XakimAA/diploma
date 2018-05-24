@@ -9,7 +9,7 @@
     <script src="js/jquery.js"> </script>
     <script src="js/generate.js"> </script> 
     <script src="js/algorithm.js"> </script>
-    <script src="js/change-structure.js"> </script>
+   
     <script src="https://cdn.jsdelivr.net/npm/alight@0.14.0/alight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@4.10.2/build/d3.min.js"></script>
     <script src="js/d3-node-editor.js"></script>
@@ -18,16 +18,16 @@
 <body>
     <div class="ControlsContainer">
         <button onclick="Generate()">Генерировать</button>
-        <select id="Change-Language" onchange="ChangeLanguage()">
-            <option>Си</option>
-            <option>Prolog</option>
+        <select id="Change-Language" onchange="Change()">
+            <option value="0">Си</option>
+            <option value="1">Prolog</option>
         </select>
-        <select id="Combobox" onchange="ChangeStructure()">
-            <option>Массив</option>
-            <option>Список</option>
-            <option>Строка</option>
-            <option>Текстовый файл</option>
-            <option>Бинарный файл</option>
+        <select id="Combobox" onchange="Change()">
+            <option value="0">Массив</option>
+            <option value="1">Список</option>
+            <option value="2">Строка</option>
+            <option value="3">Текстовый файл</option>
+            <option value="4">Бинарный файл</option>
         </select>
         
     </div>
@@ -47,5 +47,6 @@
         </div>
     </div>
     <script src="js/script.js"> </script>
+    <script src="js/change-structure.js"> </script>
 </body>
 </html>

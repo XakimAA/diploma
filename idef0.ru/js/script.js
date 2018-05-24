@@ -1,3 +1,75 @@
+function ChangeStructure(){  
+    //alert("asdfasdf");
+    switch(structure)
+    {
+        case "0":
+        switch(language){
+            case "0":
+            components = [arrayComp,sumComp,maxComp,minComp, delComp,kolComp,srComp, sortComp];
+            menu = new D3NE.ContextMenu({
+                        'Массив' : arrayComp,
+                        'Сумма': sumComp,
+                        'Максимум': maxComp,
+                        'Минимум':minComp,
+                        'Удаление': delComp,
+                        'Количество': kolComp,
+                        'Среднее' : srComp,
+                        'Сортировка':sortComp
+               });
+
+            break;
+            case "1":
+            components = [listComp,sumCompProlog,maxCompProlog,minCompProlog, delCompProlog,kolCompProlog,srCompProlog, sortCompProlog];
+            menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompProlog,
+                        'Максимум': maxCompProlog,
+                        'Минимум':minCompProlog,
+                        'Удаление': delCompProlog,
+                        'Количество': kolCompProlog,
+                        'Среднее' : srCompProlog,
+                        'Сортировка':sortCompProlog
+               });
+            break;
+            }
+        break;
+
+        case "1":
+            components = [listComp, sumCompList];
+            menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompList,
+            });
+        break;
+
+        case "2": //строка
+        components = [listComp, sumCompList];
+            menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompList,
+            });
+        break;
+        case "3": //Текстовый файл
+        components = [listComp, sumCompList];
+            menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompList,
+            });
+        break;
+        case "4": //Бинарный файл
+        components = [listComp, sumCompList];
+            menu = new D3NE.ContextMenu({
+                        'Список': listComp, 
+                        'Сумма': sumCompList,
+            });
+        break;
+        
+    } 
+    //alert("щас будет editor");
+    container = document.querySelector('#d3ne');
+    editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
+}
+
 var numSocket = new D3NE.Socket('number', 'Number value', 'hint');
 var arraySocket = new D3NE.Socket('array', 'Array value', 'hint');
 var listSocket = new  D3NE.Socket('list', 'List value', 'hint');
@@ -131,7 +203,7 @@ var sumComp = new D3NE.Component("Сумма", {
 var sumCompProlog = new D3NE.Component("Сумма", {
     builder(node) {
         node.nameFunction = "sum";
-        node.dataType = {0:"integer"};
+        node.dataType = {"input" : {0:"integer*", "output" : {0:"integer"}}};
         node.describe = "list_prolog_sum";
   var listIn = new D3NE.Input("Список", listSocket);
   var resultOut = new D3NE.Output("Результат", numSocket);
@@ -548,19 +620,48 @@ var sortCompProlog = new D3NE.Component("Сортировка", {
       .addOutput(listOut);
     }});
 
-var components = [numComp,arrayComp,sumComp,maxComp,minComp, delComp,kolComp,srComp, sortComp];
+var url = new URL(window.location.href);
+var language = url.searchParams.get("language");
+var structure = url.searchParams.get("structure");
+if (language == null || structure == null)
+{
+    language = "0";
+    structure = "0";
+}
+objSel = document.getElementById("Combobox");
 
-var menu = new D3NE.ContextMenu({
-                'Число': numComp, 
-                'Массив' : arrayComp,
-                'Сумма': sumComp,
-                'Максимум': maxComp,
-                'Минимум':minComp,
-                'Удаление': delComp,
-                'Количество': kolComp,
-                'Среднее' : srComp,
-                'Сортировка':sortComp
-       });
-var container = document.querySelector('#d3ne');
-var editor = new D3NE.NodeEditor('demo@0.1.0', container, components, menu);
+switch(language)
+{
+    
+        case "0":
+        //alert("вот этот свитч");
+        objSel.options.length = 0;
+        objSel.options[0] = new Option("Массив","0");
+        objSel.options[1] = new Option("Список","1");
+        objSel.options[2] = new Option("Строка","2");
+        objSel.options[3] = new Option("Текстовый файл","3");
+        objSel.options[4] = new Option("Бинарный файл","4");
+        
+        ChangeStructure();
+        break;
+        case "1":
+        objSel.options.length = 0;
+        objSel.options[0] = new Option("Список","0");
+        structure = "0";
+        ChangeStructure();
+        break;
+        case "2": 
+        objSel.options.length = 0;
+        objSel.options[0] = new Option("Массив","0");
+        objSel.options[1] = new Option("Список","1");
+        objSel.options[2] = new Option("Строка","2");
+        objSel.options[3] = new Option("Текстовый файл","3");
+        objSel.options[4] = new Option("Бинарный файл","4");
+        ChangeStructure();
+        break;
+    }
+$("#Change-Language").val(language);
+$("#Combobox").val(structure);
+
+
 
