@@ -16,6 +16,22 @@
     <title>Document</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Построение диаграммы:</a>
+    <ul class="navbar-nav">
+            <li class="nav-item dropdown show">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes" aria-expanded="true">Themes <span class="caret"></span></a>
+              <div class="dropdown-menu show" aria-labelledby="themes">
+                <a class="dropdown-item" href="../default/">Default</a>
+                <a class="dropdown-item" href="../default/">Ляля</a>
+            </li>
+    </ul>
+    </div>
+  </div>
+</div>
+    
+    </nav>
+
     <div class="ControlsContainer">
         <button onclick="Generate()">Генерировать</button>
         <select id="Change-Language" onchange="Change()">
@@ -29,20 +45,13 @@
             <option value="3">Текстовый файл</option>
             <option value="4">Бинарный файл</option>
         </select>
-        
     </div>
     <div class="flexBoxHolder">
         <div id="removable" class="box">
             <div id="d3ne" class="node-editor"></div>    
         </div>
-        <div id="CodeWrapper" class="box">
-            <xmp id="ProgramCode">
-            function checkParent (src, dest) {
-               while (src != null) {
-                    if (src.tagName == dest) return src
-                    src = src.parentElement
-                }
-                return null
+        <div id="CodeWrapper" class="codeview">
+            <xmp id="ProgramCode">Здесь будет сгенерированный код...
             </xmp>
         </div>
     </div>
