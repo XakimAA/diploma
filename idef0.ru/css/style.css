@@ -2,7 +2,11 @@ html, body{
     height: 100%;
     margin: 0;
  }
-
+ 
+.empty{
+    background-color: #007bff !important;
+    height: 100%; width: 5px; 
+}
 
 .node-editor{ 
    height: 100%;
@@ -29,7 +33,7 @@ html, body{
     display: flex;
     height: 25px;
     align-items: center;
-    background: grey; /* цвет фона, белый */
+    background: rgba(69, 103, 255, 0.8); /* цвет фона, белый */
  }
 
 .flexBoxHolder{
@@ -43,10 +47,10 @@ html, body{
 .codeview {
 height: 100%; /* высота нашего блока */
 width: 40%; /* ширина нашего блока */
-background: grey; /* цвет фона, белый */
+background: rgba(69, 103, 255, 0.8); /* цвет фона, белый */
 border: 1px solid #C1C1C1; /* размер и цвет границы блока */
 
-overflow-y: scroll; /* прокрутка по вертикали */
+overflow-y: scroll !important; /* прокрутка по вертикали */
 }
 
 #CodeWrapper {
@@ -4150,6 +4154,7 @@ input[type="button"].btn-block {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
+  color : white !important;
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -4245,6 +4250,7 @@ input[type="button"].btn-block {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 0.5rem 1rem;
+  background-color:rgba(69, 103, 255, 0.8);
 }
 
 .navbar > .container,
@@ -4270,6 +4276,7 @@ input[type="button"].btn-block {
   font-size: 1.25rem;
   line-height: inherit;
   white-space: nowrap;
+  
 }
 
 .navbar-brand:hover, .navbar-brand:focus {
@@ -4444,6 +4451,7 @@ input[type="button"].btn-block {
   .navbar-expand-lg > .container-fluid {
     padding-right: 0;
     padding-left: 0;
+    background-color: gray;
   }
 }
 
@@ -6422,7 +6430,7 @@ button.close {
 }
 
 .bg-primary {
-  background-color: #78C2AD !important;
+  background-color: rgba(69, 103, 255, 0.8) !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,

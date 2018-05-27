@@ -3,3 +3,23 @@ function Change(){
      "?structure=" + $("#Combobox")[0].selectedIndex + "&language="+ $("#Change-Language")[0].selectedIndex);
     
 }
+function ChooseLanguage()
+{
+    if (!document.getElementById("choose-language").aria)
+    {
+        document.getElementById("nav-language").className = "nav-item dropdown show";
+        document.getElementById("menu-language").className = "dropdown-menu show";
+        document.getElementById("choose-language").aria = true;
+    }
+    else
+    {
+        document.getElementById("nav-language").className = "nav-item dropdown";
+        document.getElementById("menu-language").className = "dropdown-menu";
+        document.getElementById("choose-language").aria = false;
+    }
+  //alert("tuk");
+}
+
+function ChangeLang(){
+    
+}
