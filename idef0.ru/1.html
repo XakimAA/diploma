@@ -16,72 +16,35 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Построение диаграммы</a>
-    <select id="Change-Language" onchange="Change()">
-            <option value="0">Си</option>
-            <option value="1">Prolog</option>
-        </select>
-        <div class="empty"></div>
-        <select id="Combobox" onchange="Change()">
-            <option value="0">Массив</option>
-            <option value="1">Список</option>
-            <option value="2">Строка</option>
-            <option value="3">Текстовый файл</option>
-            <option value="4">Бинарный файл</option>
-        </select>
-    <ul class="navbar-nav">
-            <li id="nav-language" onclick="ChooseLanguage()" class="nav-item dropdown">
-              <a id="choose-language"  class="nav-link dropdown-toggle" data-toggle="dropdown" id="themes" aria="false">Выбор языка <span class="caret"></span></a>
-              <div id="menu-language" class="dropdown-menu" aria-labelledby="themes">
-                <a class="dropdown-item" onclick="ChangeLang()" value="Си">Си</a>
-                <a class="dropdown-item" onclick="ChangeLang()" value="Пролог">Пролог</a>
-            </li>
-            <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"  id="themes" aria="false">Выбор структуры <span class="caret"></span></a>
-                    <div class="dropdown-menu " aria-labelledby="themes">
-                      <a class="dropdown-item" >Default</a>
-                      <a class="dropdown-item" >Ляля</a>
-                  </li>
-    </ul>
-    <button class="btn btn-secondary my-2 my-sm-0" type="submit" onclick="Generate()">Генерировать</button>
-    <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" >Сгенерированный код:</a>
-            </li>
-            <li class="nav-item">
-                    <a class="nav-link" ></a>
-                  </li>
-          </ul>
-    </div>
-  </div>
-</div>
     
-    </nav>
-
-    <div class="ControlsContainer">
-        <button onclick="Generate()">Генерировать</button>
-        <select id="Change-Language" onchange="Change()">
-            <option value="0">Си</option>
-            <option value="1">Prolog</option>
-        </select>
-        <select id="Combobox" onchange="Change()">
-            <option value="0">Массив</option>
-            <option value="1">Список</option>
-            <option value="2">Строка</option>
-            <option value="3">Текстовый файл</option>
-            <option value="4">Бинарный файл</option>
-        </select>
-    </div>
+<div class="ControlsContainer">
+    <div class="header">Построение диаграммы</div>
+    <div class="textik" >Выбрать язык:</div>
+        <select id="Change-Language" onchange="Change()" style="font-size: 18px; color:white; background-color:rgba(69, 103, 255, 0.8)!important ">
+                <option value="0">Си</option>
+                <option value="1">Prolog</option>
+            </select>
+           
+            <div class="textik" >Выбрать структуру:</div>
+            <select id="Combobox"  onchange="Change()" style="font-size: 18px; color:white; background-color:rgba(69, 103, 255, 0.8)!important ">
+                <option value="0">Массив</option>
+                <option value="1">Список</option>
+                <option value="2">Строка</option>
+                <option value="3">Текстовый файл</option>
+                <option value="4">Бинарный файл</option>
+            </select>
+            <button onclick="Generate()">Получить код</button>
+        </div>
     <div class="flexBoxHolder">
-        <div id="removable" class="box">
+        <div id="removable" >
             <div id="d3ne" class="node-editor"></div>    
         </div>
         <div id="CodeWrapper" class="codeview">
-            <xmp class="card-title " id="ProgramCode">Здесь будет сгенерированный код...
+            <xmp class="card-title " id="ProgramCode" style="color:white">Здесь будет сгенерированный код...
             </xmp>
         </div>
     </div>
+    
     <script src="js/script.js"> </script>
     <script src="js/change-structure.js"> </script>
 </body>

@@ -529,7 +529,7 @@ var srComp = new D3NE.Component("Среднее", {
     builder(node) {
         node.nameFunction = "sra";
         node.dataType = {0:"int"};
-        node.describe = "mas_c_sra";
+        node.describe = "mas_c_sr";
       var sumIn = new D3NE.Input("Сумма", numSocket);
       var kolIn = new D3NE.Input("Количество", numSocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
