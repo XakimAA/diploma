@@ -7,6 +7,7 @@ var listComplited = [];
 var listTemp = [];
 var listAll = [];
 var codestr = "";
+var predicate ="";
 var noerror; 
 var main;
 function find(array, value) {
@@ -39,28 +40,63 @@ function Generate(){
 	listTemp = [];
  	listAll = [];
 	//alert( 'Code  generated!' );
-	codestr = "";
-	main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
-		listAll = editor.toJSON().nodes;
-		noerror = true;
-		compliteData();
-		if (!noerror) 
-		{
-				codestr = "ошибка в диаграмме";
-				//alert("тут ошибка");
-		}
-		else
-		{
-
-	if (!aisle())
+	notification();
+	listAll = editor.toJSON().nodes;
+	noerror = true;
+	compliteData();
+	if (!noerror) 
+	{
 		codestr = "ошибка в диаграмме";
-	else
-		codestr += main + "\t _getch();\n}";
-	//alert(main);
-	var str = $("#ProgramCode");
-	str.html(codestr);
-		}
+		//alert("тут ошибка");
 	}
+	else
+	{
+		if (!aisle())
+			codestr = "ошибка в диаграмме";
+		else
+			toEnd();
+		//alert(main);
+		var str = $("#ProgramCode");
+		str.html(codestr);
+	}
+}
+
+function notification(){
+	switch($("#Change-Language")[0].selectedIndex){
+		case 0:
+		codestr = "";
+		main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
+		break;
+		case 1:
+		predicate = "implement main\n\
+	open core, console\n\
+class predicates\n";
+	codestr ="clauses\n";
+	main = "\n\
+    run() :-\n\
+    init(),\n"
+		break;
+	}
+
+}
+
+function toEnd(){
+	switch($("#Change-Language")[0].selectedIndex){
+		case 0:
+		codestr += main + "\t _getch();\n}";
+		break;
+		case 1:
+		main += '\
+    !,\n\
+    nl,\n\
+    _ = readline().\n\
+    run() :-\n\
+        console::write("Fail").\n\
+end implement main\n';
+		codestr =predicate + codestr + main;
+		break;
+	}
+}
 
 function compliteData(){
 	for (var i in listAll){
@@ -86,20 +122,6 @@ function recursia(tempNode){
 			tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
 	}
 }
-
-function GenerateC()
-{
-	var codestr = "";
-	var main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
-	if (!aisle())
-		codestr = "ошибка в диаграмме";
-	else
-		codestr += main + "\t _getch();\n}";
-	//alert(main);
-	var str = $("#ProgramCode");
-	str.html(codestr);
-}
-
 
 
  function aisle(){
@@ -164,34 +186,61 @@ function tempNodeWork(){
 }
 
 function SwitchFunction(tempNode){	
-	if (tempNode.controls != 0)
-	for (var i in tempNode.data)
-	{
-		main += "\t" + tempNode.dataType[i] + " "
-		 + tempNode.data[i] + ";\n";
-	}
-	main += "\t" + tempNode.nameFunction + "(";
-	for (var i=0; i<tempNode.inputs.length;i++)
-	{
-		if (i != 0) main += ", ";
-		main += listAll[tempNode.inputs[i].connections[0].node].data[tempNode.inputs[i].connections[0].output];
-	}
-	if (tempNode.controls != 0)
-	for (var i in tempNode.data)
-	{
-		main += ", " + tempNode.data[i];
-	}
-	main += ");\n";
-	codestr += code(tempNode.describe);
-	
+	switch($("#Change-Language")[0].selectedIndex){
+		case 0:
+			if (tempNode.controls != 0)
+			for (var i in tempNode.data)
+			{
+				main += "\t" + tempNode.dataType[i] + " "
+				+ tempNode.data[i] + ";\n";
+			}
+			main += "\t" + tempNode.nameFunction + "(";
+			for (var i=0; i<tempNode.inputs.length;i++)
+			{
+				if (i != 0) main += ", ";
+				main += listAll[tempNode.inputs[i].connections[0].node].data[tempNode.inputs[i].connections[0].output];
+			}
+			if (tempNode.controls != 0)
+			for (var i in tempNode.data)
+			{
+				main += ", " + tempNode.data[i];
+			}
+			main += ");\n";
+			codestr += code(tempNode.describe);
+		break;
+		case 1:
+			predicate += "    " + tempNode.nameFunction + " : (";
+			for (var i in tempNode.dataType)
+			{
+				if (i != 0) predicate += ", ";
+				predicate +=tempNode.dataType[i];
+			}
+			predicate +=") "+tempNode.functionType +".\n";
+			codestr += code(tempNode.describe);
+			main += "    " +tempNode.nameFunction + " : (";
+			for (var i=0; i<tempNode.inputs.length;i++)
+			{
+				if (i != 0) main += ", ";
+				main += listAll[tempNode.inputs[i].connections[0].node].data[tempNode.inputs[i].connections[0].output].toUpperCase();
+			}
+			for (var i in tempNode.data)
+			{
+				main += ", "+ tempNode.data[i].toUpperCase();
+			}
+			main +="),\n";
+		break;
+		}
 }
 
 function SwitchWithoutInput(tempNode){
-    switch(tempNode.title){
-		case 'Массив':
+    switch(tempNode.nameFunction){
+		case 'array_c':
 	   //alert("МАСИИИИИИИИИВ");
-	 	main += "\tint " + tempNode.data[1] + " = N;\n"; 
-		main += "\tint *" + tempNode.data[0] + " = new int["+ tempNode.data[1] +"];\n";
-			break;
+	    main += "\t" + tempNode.dataType[1] +" "+ tempNode.data[1] + " = N;\n";
+		main += "\t" +  tempNode.dataType[0]+" "+tempNode.data[0] + " = new int["+ tempNode.data[1] +"];\n";
+		break;
+		case 'list_prolog':
+		main +="    "+ tempNode.data[0].toUpperCase() + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		break;
 	} 
 }

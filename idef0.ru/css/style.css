@@ -8,7 +8,8 @@ html, body{
 .codeview {
     height: 100% !important   ; /* высота нашего блока */
     width: 40%; /* ширина нашего блока */
-    background: rgba(69, 103, 255, 0.8); /* цвет фона, белый */  
+    background: rgba(69, 103, 255, 0.8); /* цвет фона, белый */ 
+    overflow-x: scroll !important; /* прокрутка по вертикали */ 
     overflow-y: scroll !important; /* прокрутка по вертикали */
     }
 

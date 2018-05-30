@@ -1663,7 +1663,8 @@ var Node = function (_Block) {
                 'dataType' : this.dataType,
                 'describe' : this.describe,
                 'nameFunction' : this.nameFunction,
-                'controls' : this.controls.length
+                'controls' : this.controls.length,
+                'functionType' :this.functionType
             };
         }
     }], [{
