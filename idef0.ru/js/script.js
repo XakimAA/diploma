@@ -213,7 +213,7 @@ var sumComp = new D3NE.Component("Сумма", {
             }
 
             el.addEventListener("input", ()=>{
-                upd();
+                upd();  
                 editor.eventListener.trigger("change");
             });
             el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field

@@ -20,6 +20,3 @@ function ChooseLanguage()
   //alert("tuk");
 }
 
-function ChangeLang(){
-    
-}

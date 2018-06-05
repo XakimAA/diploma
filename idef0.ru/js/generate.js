@@ -1,8 +1,3 @@
-
-//var fso = new ActiveXObject("Scripting.FileSystemObject");
-//var a = fso.CreateTextFile("E:\\testfile.txt", true);
-//a.WriteLine("This is a test.");
-
 var listComplited = [];
 var listTemp = [];
 var listAll = [];
@@ -102,21 +97,32 @@ function compliteData(){
 	for (var i in listAll){
 		if (Object.keys(listAll[i].data).length == 0)
 		{
-			recursia(listAll[i]);
+			if(find(listTemp,listAll[i]) == -1 && find(listComplited,listAll[i]) == -1)
+			listTemp.push(listAll[i]);
+			while (listTemp.length != 0 && noerror)
+			{
+				noerror = recursia();
+			}
 		}
+		if (!noerror) return noerror;
 	}
+	listTemp = [];
+	listComplited=[];
+	return true;
  }
 
-function recursia(tempNode){
+function recursia(){
+	tempNode = listTemp[listTemp.length - 1];
 	for(var j=0;j<tempNode.inputs.length && noerror;j++){
 		if (tempNode.inputs[j].connections.length == 0)
 			{
 				noerror = false;
-				return;
+				return noerror;
 			}
 		if (Object.keys(listAll[tempNode.inputs[j].connections[0].node].data).length == 0){
-			recursia(listAll[tempNode.inputs[j].connections[0].node]);
-			tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
+			listTemp.push(listAll[tempNode.inputs[j].connections[0].node]);
+		//	recursia(listAll[tempNode.inputs[j].connections[0].node]);
+		//	tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
 		}
 		else
 			tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
@@ -125,7 +131,7 @@ function recursia(tempNode){
 
 
  function aisle(){
-	var notError = true;
+	notError = true;
 	for (var i in listAll) 
 	{
         //alert("зашли в цикл");
