@@ -524,6 +524,487 @@ return 'void sort(FILE *filein, int &N)\n\
 break;
 //#endregion
 
+//#region mas_pascal
+case "mas_pascal_max":
+return "procedure max(a:array of integer; n:integer, var max: integer);\n\
+var i:integer;\n\
+begin\n\
+     max:=0;\n\
+     for i:=1 to N-1 do\n\
+     begin\n\
+       if (a[i] > max) then max:=i;\n\
+     end;\n\
+end;\n";
+break;
+case "mas_pascal_min":
+return "procedure min(a:array of integer; n:integer,var  min: integer);\n\
+var i:integer;\n\
+begin\n\
+min:=0;\n\
+     for i:=1 to N-1 do\n\
+     begin\n\
+       if (a[i] < min) then min:=i;\n\
+     end;\n\
+end;\n";
+break;
+case "mas_pascal_sum":
+return "procedure sum(a:array of integer; n:integer,var  s : integer)\n\
+var i:integer;\n\
+begin\n\
+     s:=0;\n\
+     for i:=0 to N-1 do\n\
+     begin\n\
+         s:=s+a[i];\n\
+     end;\n\
+end;\n";
+break;
+case "mas_pascal_del":
+return "procedure Delet(var a: array of integer; var n:integer; key:integer);\n\
+var i,m: Integer;\n\
+begin\n\
+  m:=0;\n\
+  for i:=0 to n-1 do\n\
+  if (a[i]=key) then m:=m+1 else a[i-m]:=a[i]; \n\
+n:=n-m;\n\
+end;\n";
+break;
+case "mas_pascal_kol":
+return "procedure kol(a:array of integer; n:integer,var k : integer)\n\
+var i:integer;\n\
+begin\n\
+     k:=n;\n\
+end;\n";
+break;
+case "mas_pascal_sr":
+return "procedure sra(k:integer; s:integer,var sr : real)\n\
+var i:integer;\n\
+begin\n\
+     s := s/k;\n\
+end;\n";
+break;
+case "mas_pascal_sort":
+return "procedure sort(var a: array of integer; n:integer);\n\
+var i, j, t : Integer;\n\
+begin\n\
+   for i := 0 to n-1 do\n\
+      for j := 0 to n-1 do\n\
+      if (a[j+1] < a[j]) then\n\
+      begin\n\
+         t := a[j+1];\n\
+         a[j+1] := a[j];\n\
+         a[j] := t;\n\
+      end;\n\
+end;\n";
+break;
+//endregion 
+
+//#region list_pascal
+case "list_pascal_sum":
+return "procedure sum(head: ^Node, var s:integer);\n\
+var cur: ^Node;\n\
+begin\n\
+  cur := head;\n\
+  s := 0;\n\
+  while (cur <> nil) do\n\
+  begin\n\
+    s := s + cur^.value;\n\
+    cur := cur^.next;\n\
+  end;\n\
+end;\n";
+break;
+case "list_pascal_max":
+return "procedure max(var head: ^Node,var max:integer);\n\
+var cur: ^Node;\n\
+begin\n\
+  cur := head;\n\
+  max := head^.value;\n\
+  while (cur <> nil) do\n\
+  begin\n\
+    if (max<cur^.value) then max := cur^.value;\n\
+    cur := cur^.next;\n\
+  end;\n\
+end;\n";
+break;
+case "list_pascal_min":
+return "procedure min(var head: ^Node,var min:integer);\n\
+var cur: ^Node;\n\
+begin\n\
+  cur := head;\n\
+  min := head^.value;\n\
+  while (cur <> nil) do\n\
+  begin\n\
+    if (min>cur^.value) then min := cur^.value;\n\
+    cur := cur^.next;\n\
+  end;\n\
+end;\n";
+break;
+case "list_pascal_del":
+return "procedure del(var head :^Node; x :integer);\n\
+var\n\
+  PElem, PPrev, PDel : ^Node;\n\
+  Cnt : Integer;\n\
+begin\n\
+  Cnt := 0; \n\
+  PPrev := nil;\n\
+  PElem := head;\n\
+  while PElem <> nil do\n\
+    if PElem^.value = x then \n\
+    begin\n\
+      if PElem = head then\n\
+        head := PElem^.next\n\
+      else\n\
+        PPrev^.next := PElem^.next;\n\
+      if PElem = tail then\n\
+        tail := PPrev;\n\
+      PDel := PElem; \n\
+      PElem := PElem^.next; \n\
+      Dispose(PDel);\n\
+      Inc(Cnt); \n\
+    end\n\
+    else \n\
+    begin\n\
+      PPrev := PElem;\n\
+      PElem := PElem^.next;\n\
+    end;\n\
+end;\n";
+break;
+case "list_pascal_kol":
+return "procedure kol(head: ^Node, var k:integer);\n\
+var cur: ^Node;\n\
+begin\n\
+  cur := head;\n\
+  k := 0;\n\
+  while (cur <> nil) do\n\
+  begin\n\
+    k := k + 1;\n\
+    cur := cur^.next;\n\
+  end;\n\
+end;\n";
+break;
+case "list_pascal_sr":
+return "procedure sra(k:integer; s:integer,var sr : real)\n\
+var i:integer;\n\
+begin\n\
+     s := s/k;\n\
+end;\n";
+break;
+case "list_pascal_sort":
+return "procedure sort(var head: ^Node);\n\
+var\n\
+  t,m,a,b : ^Node;\n\
+  go : boolean;\n\
+begin\n\
+  go := true;\n\
+  while (go) do\n\
+  begin\n\
+    go := false;\n\
+    a := head;\n\
+    t := head;\n\
+    b := head^.next;\n\
+    while (b <> nil) do \n\
+    begin\n\
+      if (a^.value > b^.value) then\n\
+      begin\n\
+        if (t = a) then head := b\n\
+        else t^.next := b;\n\
+        a^.next := b^.next;\n\
+        b^.next := a;\n\
+        m := a;\n\
+        a := b;\n\
+        b := m;\n\
+        go := true;\n\
+      end;\n\
+    t := a;\n\
+    a := a^.next;\n\
+    b := b^.next;\n\
+    end;\n\
+  end;\n\
+end;\n";
+break;
+//endregion 
+
+//#region string_pascal
+case "string_pascal_max":
+return "procedure max(s:string,var max:char);\n\
+var i:integer;\n\
+begin\n\
+max := str[1];\n\
+for i:=1 to length(s) do\n\
+    if (max<s[i]) then max:=s[i];\n\
+end;\n";
+break;
+case "string_pascal_min":
+return "procedure min(s:string,var min:char);\n\
+var i:integer;\n\
+begin\n\
+min := str[1];\n\
+for i:=1 to length(s) do\n\
+    if (min>s[i]) then min:=s[i];\n\
+end;\n";
+break;
+case "string_pascal_del":
+return "procedure del(var s: string; podstr: char);\n\
+var i:integer;\n\
+begin\n\
+if (pos(podstr,s) <> 0) then \n\
+  begin\n\
+    for i:=pos(podstr,s) to length(s)-length(podstr) do\n\
+      s[i] := s[i + length(podstr)];\n\
+    s:= copy(s,1,length(s)-length(podstr)); \n\
+  end;\n\
+end;\n";
+break;
+case "string_pascal_sort":
+return "procedure sort(var s:string; n:integer);\n\
+var i, j, t : integer;\n\
+begin\n\
+   for i := 0 to n-1 do\n\
+      for j := 0 to n-1 do\n\
+      if (s[j+1] < s[j]) then\n\
+      begin\n\
+         t := s[j+1];\n\
+         s[j+1] := s[j];\n\
+         s[j] := t;\n\
+      end;\n\
+end;\n";
+break;
+//endregion 
+
+//#region textfile_pascal
+case "textfile_pascal_sum":
+return "";
+break;
+case "textfile_pascal_max":
+return "procedure max(f : file of char, var max:char);\n\
+var\n\
+st : char;\n\
+max: char;\n\
+begin\n\
+seek(f,0);\n\
+read (f, max);\n\
+while not eof (f) do \n\
+  begin\n\
+  read (f, st);    \n\
+  if (max<st) then max:=st;\n\
+  end;\n\
+end;\n";
+break;
+case "textfile_pascal_min":
+return "procedure min(f : file of char, var min:char);\n\
+var\n\
+st : char;\n\
+begin\n\
+seek(f,0);\n\
+read (f, min);\n\
+while not eof (f) do \n\
+  begin\n\
+  read (f, st);    \n\
+  if (min>st) then min:=st;\n\
+  end;\n\
+end;\n";
+break;
+case "textfile_pascal_del":
+return "procedure del(f : file of char; cfind: char);\n\
+var\n\
+s : char;\n\
+i : integer;\n\
+f2 : file of char;\n\
+begin\n\
+seek(f,0);\n\
+assign(f2, f2path);\n\
+rewrite(f2);\n\
+while not eof(f) do\n\
+  begin\n\
+    read (f, s);   \n\
+    if (s <> cfind) then\n\
+      write(f2,s);\n\
+  end;\n\
+  close(f);\n\
+  erase(f);\n\
+  close(f2);\n\
+  rename(f2,fpath);\n\
+  f := f2;\n\
+end;\n";
+break;
+case "textfile_pascal_sort":
+return "procedure sort(f : file of char);\n\
+var\n\
+a:char;\n\
+lenstr, N:integer;\n\
+buffer:string;\n\
+buffer2:string;\n\
+i,j,pos:integer;\n\
+begin\n\
+seek(f,0);\n\
+while (i<(lenstr+1)*(N-1)) do\n\
+  begin\n\
+  seek(f,i);\n\
+  repeat \n\
+    read(f,a);\n\
+    buffer := buffer + a;\n\
+  until (Ord(a) = 10);\n\
+  buffer := buffer;//  + chr(13);\n\
+  writeln('buffer: ',buffer);\n\
+  writeln('strlen: ',length(buffer));\n\
+  j := i + length(buffer) - 1;\n\
+  writeln('a: ',a);\n\
+  while(j<(lenstr+1)*N) do\n\
+    begin\n\
+    a := ' ';\n\
+    seek(f,j);\n\
+    repeat \n\
+      read(f,a);\n\
+      write(' ',a);\n\
+      buffer2 := buffer2 + a;\n\
+    until (Ord(a) = 10);\n\
+    buffer2 := buffer2; \n\
+    writeln('buffer2: ',buffer2);\n\
+    if (buffer > buffer2) then \n\
+      begin\n\
+      pos := i;\n\
+      seek(f,pos);\n\
+      writestr(f,buffer2);\n\
+      pos := j;\n\
+      seek(f,pos);\n\
+      writestr(f,buffer);\n\
+      buffer := buffer2;\n\
+      writeln('buffer: ',buffer);\n\
+      writeln('buffer2: ',buffer2);\n\
+      end;\n\
+      j := j+length(buffer) - 1;\n\
+    end;\n\
+  i := i+length(buffer) - 1;\n\
+  end;\n\
+writeln();\n\
+end;\n";
+break;
+//endregion 
+
+//#region binfile_pascal
+case "binfile_pascal_sum":
+return "";
+break;
+case "binfile_pascal_max":
+return "procedure max(f:file, var max:integer);\n\
+var\n\
+i : integer;\n\
+t: Man;\n\
+begin\n\
+seek(f,0);\n\
+read(f,max);\n\
+read(f,t.name);\n\
+for i:=1 to n-1 do\n\
+  begin\n\
+  read(f,t.age);\n\
+  read(f,t.name);\n\
+  if (max<t.age) then max:=t.age;\n\
+  end;\n\
+end;\n";
+break;
+case "binfile_pascal_min":
+return "procedure min(f:file,var min:integer);\n\
+var\n\
+i : integer;\n\
+t: Man;\n\
+begin\n\
+seek(f,0);\n\
+read(f,min);\n\
+read(f,t.name);\n\
+for i:=1 to n-1 do\n\
+  begin\n\
+  read(f,t.age);\n\
+  read(f,t.name);\n\
+  if (min>t.age) then min:=t.age;\n\
+  end;\n\
+end;\n";
+break;
+case "binfile_pascal_del":
+return "procedure del(f : file; c : integer; var n: integer);\n\
+var\n\
+f2 : file;\n\
+k : integer;\n\
+i : integer;\n\
+t: Man;\n\
+begin\n\
+seek(f,0);\n\
+k:=0;\n\
+assign(f2,f2path);\n\
+rewrite(f2);\n\
+for i:=0 to n-1 do\n\
+  begin\n\
+  read(f,t.age);\n\
+  read(f,t.name);\n\
+  if (t.age <> c) then\n\
+    begin\n\
+    write(f2,t.age);\n\
+    write(f2,t.name);\n\
+    inc(k);\n\
+    end;\n\
+  end;\n\
+  close(f);\n\
+  erase(f);\n\
+  close(f2);\n\
+  rename(f2,fpath);\n\
+  n:=k;\n\
+end;\n";
+break;
+case "binfile_pascal_sort":
+return "procedure SortFile(f:file; N:integer);\n\
+var\n\
+i,j,pos:integer;\n\
+a,b : Data;\n\
+begin\n\
+i:=0;\n\
+seek(f,0);\n\
+while (i<sizeof(Data)*(N-1)) do\n\
+begin\n\
+  //читаем первую из сравниваемых записей\n\
+  seek(f,i);\n\
+  read(f,a.day);\n\
+  read(f,a.mes);\n\
+  read(f,a.god);\n\
+  write('a.age ',a.day);\n\
+  writeln(' a.name ',a.mes);\n\
+  j := i + sizeof(Data);\n\
+  while (j<sizeof(Data)*N) do\n\
+  begin\n\
+    //читаем вторую из сравниваемых записей\n\
+    seek(f,j);\n\
+    read(f,b.day);\n\
+    read(f,b.mes);\n\
+    read(f,b.god);\n\
+    write('b.age ',b.day);\n\
+    writeln(' b.name ',b.mes); \n\
+    if (a.mes > b.mes)  then\n\
+    begin\n\
+      //обмен записей\n\
+      pos := i;\n\
+      writeln('!!!i ',i);\n\
+      seek(f,pos);\n\
+      write(f,b.day);\n\
+      write(f,b.mes);\n\
+      write(f,b.god);\n\
+      pos := j;\n\
+      seek(f,pos);\n\
+      write(f,a.day);\n\
+      write(f,a.mes);\n\
+      write(f,a.god);\n\
+      a.day := b.day;\n\
+      a.mes := b.mes;\n\
+      a.god := b.god;\n\
+      write('!!!a.age ',a.day);\n\
+      writeln(' !!!a.name ',a.mes); \n\
+      write('!!!b.age ',b.day);\n\
+      writeln(' !!!b.name ',b.mes); \n\
+    end;\n\
+    j := j + sizeof(Data);\n\
+  end;\n\
+  i := i + sizeof(Data);\n\
+end;\n\
+end;\n";
+break;
+//endregion 
+
 //#region prolog
      case "list_prolog_sum":
      return "    sum([], 0).\n\
@@ -583,7 +1064,6 @@ break;
      break;
 //#endregion
 
-     case "dadsa":
-     break;
+     
      }    
 }

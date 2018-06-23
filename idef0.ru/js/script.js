@@ -31,6 +31,19 @@ function ChangeStructure(){
                         'Сортировка':sortCompProlog
                });
             break;
+            case "2": //паскаль
+            components = [arrayCompPascal,sumCompPascalArray,maxCompPascalArray,minCompPascalArray, delCompPascalArray,kolCompPascalArray,srCompPascalArray, sortCompPascalArray];
+            menu = new D3NE.ContextMenu({
+                        'Массив' : arrayCompPascal,
+                        'Сумма': sumCompPascalArray,
+                        'Максимум': maxCompPascalArray,
+                        'Минимум':minCompPascalArray,
+                        'Удаление': delCompPascalArray,
+                        'Количество': kolCompPascalArray,
+                        'Среднее' : srCompPascalArray,
+                        'Сортировка':sortCompPascalArray
+               });
+            break;
             }
         break;
 
@@ -50,11 +63,24 @@ function ChangeStructure(){
             });
             break;
             case "2": //pascal
+            components = [listCompPascal, sumCompPascalList,maxCompPascalList,minCompPascalList,delCompPascalList,kolCompPascalList,srCompPascalList,sortCompPascalList];
+            menu = new D3NE.ContextMenu({
+                        'Список': listCompPascal, 
+                        'Сумма': sumCompPascalList,
+                        'Максимум': maxCompPascalList,
+                        'Минимум':minCompPascalList,
+                        'Удаление': delCompPascalList,
+                        'Количество': kolCompPascalList,
+                        'Среднее' : srCompPascalList,
+                        'Сортировка':sortCompPascalList
+            });
             break;
         }
         break;
 
         case "2": //строка
+        switch(language){
+            case "0": //си
         components = [stringComp,maxCompString,minCompString,delCompString,sortCompString];
             menu = new D3NE.ContextMenu({
                         'Строка': stringComp, 
@@ -63,8 +89,13 @@ function ChangeStructure(){
                         'Удаление': delCompString,
                         'Сортировка':sortCompString
             });
+            break;
+            case "2"://паскаль
+        }
         break;
         case "3": //Текстовый файл
+        switch(language){
+            case "0": //си
         components = [textFileComp, maxCompTextFile,minCompTextFile,delCompTextFile,sortCompTextFile];
             menu = new D3NE.ContextMenu({
                         'Файл': textFileComp, 
@@ -73,8 +104,13 @@ function ChangeStructure(){
                         'Удаление': delCompTextFile,
                         'Сортировка':sortCompTextFile
             });
+            break;
+            case "2"://паскаль
+        }
         break;
         case "4": //Бинарный файл
+        switch(language){
+            case "0": //си
         components = [binFileComp, maxCompBinFile,minCompBinFile,delCompBinFile,sortCompBinFile];
             menu = new D3NE.ContextMenu({
                         'Файл': binFileComp, 
@@ -83,6 +119,9 @@ function ChangeStructure(){
                         'Удаление': delCompBinFile,
                         'Сортировка':sortCompBinFile
             });
+            break;
+            case "2"://паскаль
+        }
         break;
         
     } 
@@ -1258,10 +1297,491 @@ var sortCompBinFile = new D3NE.Component("Сортировка", {
       ;
     }});
 
+var arrayCompPascal = new D3NE.Component('Массив',{
+    builder(node) {
+        node.nameFunction = "array_pascal";
+        node.dataType = {0:"array of integer" ,1:"integer"};
+        var sizeOut = new D3NE.Output('Размерность', numSocket);
+        var arrayOut = new D3NE.Output('Массив', arraySocket);
+        var sizeControl = new D3NE.Control('<input type="string">',
+          (el, c) => {
+             el.value = c.getData('1') || "имя размерности";
+          
+             function upd() {
+                c.putData("1", el.value);
+             }
+ 
+             el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+             });
+             el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+          }
+       );
+        var arrayControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+            el.value = c.getData('0') || "имя массива";
+        
+            function upd() {
+                c.putData("0", el.value);
+            }
+
+            el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+            });
+            el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+        }
+        );
+        return node
+                .addOutput(arrayOut)
+                .addOutput(sizeOut)
+                .addControl(arrayControl)
+                .addControl(sizeControl);
+                
+    }});
+
+var maxCompPascalArray = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"integer"};
+        node.describe = "mas_pascal_max";
+      var sizeIn = new D3NE.Input("Размерность", numSocket);
+      var arrayIn = new D3NE.Input("Массив", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompPascalArray = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"integer"};
+        node.describe = "mas_pascal_min";
+      var sizeIn = new D3NE.Input("Размерность", numSocket);
+      var arrayIn = new D3NE.Input("Массив", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var sumCompPascalArray = new D3NE.Component("Сумма", {
+    builder(node) {
+        node.nameFunction = "sum";
+        node.dataType = {0:"integer"};
+        node.describe = "mas_pascal_sum";
+  var sizeIn = new D3NE.Input("Размерность", numSocket);
+  var arrayIn = new D3NE.Input("Массив", arraySocket);
+  var resultOut = new D3NE.Output("Результат", numSocket);
+  var resultControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+            el.value = c.getData('0') || "имя выходного значения";
+        
+            function upd() {
+                c.putData("0", el.value);
+            }
+
+            el.addEventListener("input", ()=>{
+                upd();  
+                editor.eventListener.trigger("change");
+            });
+     el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var delCompPascalArray = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"array of integer", 1:"integer"};
+        node.describe = "mas_pascal_del";
+      var sizeIn = new D3NE.Input("Размерность", numSocket);
+      var arrayIn = new D3NE.Input("Массив", arraySocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
+      var sizeOut = new D3NE.Output("Новая размерность", numSocket);
+      var arrayOut = new D3NE.Output("Новый массив", arraySocket);
+
+      var sizeControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('1') || "имя новой размерности";
+      
+         function upd() {
+            c.putData("1", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+
+   var arrayControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя нового массива";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+         .addInput(elementIn)
+         .addOutput(arrayOut)
+         .addOutput(sizeOut)
+         .addControl(arrayControl)
+         .addControl(sizeControl)
+         ;
+    }});     
+
+var kolCompPascalArray = new D3NE.Component("Количество", {
+    builder(node) {
+        node.nameFunction = "kol";
+        node.dataType = {0:"integer"};
+        node.describe = "mas_pascal_kol";
+      var sizeIn = new D3NE.Input("Размерность", numSocket);
+      var arrayIn = new D3NE.Input("Массив", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }});
+	
+var srCompPascalArray = new D3NE.Component("Среднее", {
+    builder(node) {
+        node.nameFunction = "sra";
+        node.dataType = {0:"real"};
+        node.describe = "mas_pascal_sr";
+      var sumIn = new D3NE.Input("Сумма", numSocket);
+      var kolIn = new D3NE.Input("Количество", numSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(sumIn)
+      .addInput(kolIn)   
+      .addOutput(resultOut)
+      .addControl(resultControl);
+    }});
+
+var sortCompPascalArray = new D3NE.Component("Сортировка", {
+    builder(node) {
+        node.nameFunction = "sort";
+        node.describe = "mas_pascal_sort";
+      var sizeIn = new D3NE.Input("Размерность", numSocket);
+      var arrayIn = new D3NE.Input("Массив", arraySocket);
+      var sizeOut = new D3NE.Output("Размерность", numSocket);
+      var arrayOut = new D3NE.Output("Массив", arraySocket);
+
+      return node
+      .addInput(arrayIn)   
+      .addInput(sizeIn)
+      .addOutput(arrayOut)   
+      .addOutput(sizeOut);
+    }});
+    
+
+var listCompPascal = new D3NE.Component('Список',{
+    builder(node) {
+        node.nameFunction = "list_Pascal";
+        node.dataType = {0:"int"};
+        var listOut = new D3NE.Output('Список', listSocket);
+        var arrayControl = new D3NE.Control('<input type="string">',
+            (el, c) => {
+                el.value = c.getData('0') || "имя списка";
+            
+                function upd() {
+                    c.putData("0", el.value);
+                }
+    
+                el.addEventListener("input", ()=>{
+                    upd();
+                    editor.eventListener.trigger("change");
+                });
+                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+                upd();
+            }
+        );
+        return node
+            .addOutput(listOut)
+            .addControl(arrayControl);
+ }});
+
+var sumCompPascalList = new D3NE.Component("Сумма", {
+    builder(node) {
+        node.nameFunction = "sum";
+        node.dataType = {0:"integer"};
+        node.describe = "list_pascal_sum";
+  var arrayIn = new D3NE.Input("Список", listSocket);
+  var resultOut = new D3NE.Output("Результат", numSocket);
+  var resultControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+            el.value = c.getData('0') || "имя выходного значения";
+        
+            function upd() {
+                c.putData("0", el.value);
+            }
+
+            el.addEventListener("input", ()=>{
+                upd();  
+                editor.eventListener.trigger("change");
+            });
+            el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+        }
+    );
+    return node
+    .addInput(arrayIn) 
+     .addControl(resultControl)
+     .addOutput(resultOut);
+    }}); 
+
+var maxCompPascalList = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"integer"};
+        node.describe = "list_pascal_max";
+      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompPascalList = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"integer"};
+        node.describe = "list_pascal_min";
+      var arrayIn = new D3NE.Input("Список", listSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)  
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }});     
+
+
+
+var delCompPascalList = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.describe = "list_pascal_del";
+      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
+      var arrayOut = new D3NE.Output("Cписок", arraySocket);
+
+      return node
+      .addInput(arrayIn)   
+         .addInput(elementIn)
+         .addOutput(arrayOut)
+         ;
+    }});     
+
+var kolCompPascalList = new D3NE.Component("Количество", {
+    builder(node) {
+        node.nameFunction = "kol";
+        node.dataType = {0:"integer"};
+        node.describe = "list_pascal_kol";
+      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(arrayIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }});
+
+var srCompPascalList = new D3NE.Component("Среднее", {
+    builder(node) {
+        node.nameFunction = "sra";
+        node.dataType = {0:"real"};
+        node.describe = "list_pascal_sr";
+      var sumIn = new D3NE.Input("Сумма", numSocket);
+      var kolIn = new D3NE.Input("Количество", numSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(sumIn)
+      .addInput(kolIn)   
+      .addOutput(resultOut)
+      .addControl(resultControl);
+    }});
+
+var sortCompPascalList = new D3NE.Component("Сортировка", {
+    builder(node) {
+        node.nameFunction = "sort";
+        node.describe = "list_pascal_sort";
+      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var arrayOut = new D3NE.Output("Список", arraySocket);
+      function upd() {
+          var inputmas = node.toJSON().inputs[0].connections[0];
+          var inputsize = node.toJSON().inputs[1].connections[0];
+          var nodes = editor.toJSON().nodes;
+        node.data[0] = nodes[inputmas.node].data[inputmas.output];
+        node.data[1] = nodes[inputsize.node].data[inputsize.output];
+     }  
+      return node
+      .addInput(arrayIn)  
+      .addOutput(arrayOut)   
+    }});
 
 
     
-var url = new URL(window.location.href);
+    var url = new URL(window.location.href);
 var language = url.searchParams.get("language");
 var structure = url.searchParams.get("structure");
 if (language == null || structure == null)
@@ -1296,8 +1816,8 @@ switch(language)
         objSel.options[0] = new Option("Массив","0");
         objSel.options[1] = new Option("Список","1");
         objSel.options[2] = new Option("Строка","2");
-        objSel.options[3] = new Option("Текстовый файл","3");
-        objSel.options[4] = new Option("Бинарный файл","4");
+        objSel.options[3] = new Option("Типизированный файл","3");
+        objSel.options[4] = new Option("Нетипизированный файл","4");
         ChangeStructure();
         break;
     }

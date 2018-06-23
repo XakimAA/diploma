@@ -275,5 +275,11 @@ function SwitchWithoutInput(tempNode){
 		main += "\t" + tempNode.dataType[0]+" "+tempNode.data[0] + ";\n";
 		main += "\tfopen_s(&" + tempNode.data[0] +"," + '"' + tempNode.data[1] + '"'+',"r+b")\n';
 		break;
+		case 'list_pascal':
+		main +="    "+ tempNode.data[0].toUpperCase() + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		break;
+		case 'array_pascal':
+		main +="    "+ tempNode.data[0].toUpperCase() + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		break;
 	} 
 }
