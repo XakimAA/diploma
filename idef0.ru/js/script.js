@@ -55,10 +55,13 @@ function ChangeStructure(){
         break;
 
         case "2": //строка
-        components = [stringComp, sumCompList];
+        components = [stringComp,maxCompString,minCompString,delCompString,sortCompString];
             menu = new D3NE.ContextMenu({
                         'Строка': stringComp, 
-                        'Сумма': sumCompList,
+                        'Максимум': maxCompString,
+                        'Минимум':minCompString,
+                        'Удаление': delCompString,
+                        'Сортировка':sortCompString
             });
         break;
         case "3": //Текстовый файл
@@ -161,6 +164,8 @@ var arrayComp = new D3NE.Component('Массив',{
 
 var listComp = new D3NE.Component('Список',{
     builder(node) {
+        node.nameFunction = "list_c";
+        node.dataType = {0:"Node*"};
         var listOut = new D3NE.Output('Список', listSocket);
         var arrayControl = new D3NE.Control('<input type="string">',
             (el, c) => {
@@ -641,29 +646,7 @@ var sortCompProlog = new D3NE.Component("Сортировка", {
     }});
 
 
-var stringComp = new D3NE.Component('Строка',{
-    builder(node) {
-        var listOut = new D3NE.Output('Строка', listSocket);
-        var arrayControl = new D3NE.Control('<input type="string">',
-            (el, c) => {
-                el.value = c.getData('0') || "имя строки";
-            
-                function upd() {
-                    c.putData("0", el.value);
-                }
-    
-                el.addEventListener("input", ()=>{
-                    upd();
-                    editor.eventListener.trigger("change");
-                });
-                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
-                upd();
-            }
-        );
-        return node
-            .addOutput(listOut)
-            .addControl(arrayControl);
-  }});
+
 
 var sumCompList = new D3NE.Component("Сумма", {
     builder(node) {
@@ -860,6 +843,165 @@ var sortCompList = new D3NE.Component("Сортировка", {
           .addInput(listIn)  
           .addOutput(listOut)  
         }});
+
+var stringComp = new D3NE.Component('Строка',{
+    builder(node) {
+        node.nameFunction = "string_c";
+        node.dataType = {0:"char*"};
+        var stringOut = new D3NE.Output('Строка', arraySocket);
+        var stringControl = new D3NE.Control('<input type="string">',
+            (el, c) => {
+                el.value = c.getData('0') || "имя строки";
+            
+                function upd() {
+                    c.putData("0", el.value);
+                }
+    
+                el.addEventListener("input", ()=>{
+                    upd();
+                    editor.eventListener.trigger("change");
+                });
+                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+                upd();
+            }
+        );
+        return node
+            .addOutput(stringOut)
+            .addControl(stringControl);
+  }});
+
+var maxCompString = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"char"};
+        node.describe = "string_c_max";
+      var stringIn = new D3NE.Input("Строка", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(stringIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompString = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"char"};
+        node.describe = "string_c_min";
+      var stringIn = new D3NE.Input("Строка", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(stringIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var delCompString = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"char*"};
+        node.describe = "string_c_del";
+      var stringIn = new D3NE.Input("Строка", arraySocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
+      var stringOut = new D3NE.Output("Строка", arraySocket);
+      return node
+      .addInput(stringIn)   
+         .addInput(elementIn)
+         .addOutput(stringOut)
+         ;
+    }});  
+
+var sortCompString = new D3NE.Component("Сортировка", {
+    builder(node) {
+        node.nameFunction = "sort";
+        node.describe = "string_c_sort";
+      var stringIn = new D3NE.Input("Строка", arraySocket);
+      var stringOut = new D3NE.Output("Строка", arraySocket);
+      return node
+      .addInput(stringIn)   
+      .addOutput(stringOut)  
+    }});
+
+var textFileComp = new D3NE.Component('Массив',{
+    builder(node) {
+        node.nameFunction = "array_c";
+        node.dataType = {0:"int*" ,1:"int"};
+        node.describe = "mas_c_sum";
+        var sizeOut = new D3NE.Output('Размерность', numSocket);
+        var arrayOut = new D3NE.Output('Массив', arraySocket);
+        var sizeControl = new D3NE.Control('<input type="string">',
+          (el, c) => {
+             el.value = c.getData('1') || "имя размерности";
+          
+             function upd() {
+                c.putData("1", el.value);
+             }
+ 
+             el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+             });
+             el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+          }
+       );
+        var arrayControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+            el.value = c.getData('0') || "имя массива";
+        
+            function upd() {
+                c.putData("0", el.value);
+            }
+
+            el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+            });
+            el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+        }
+        );
+        return node
+                .addOutput(arrayOut)
+                .addOutput(sizeOut)
+                .addControl(arrayControl)
+                .addControl(sizeControl);
+                
+    }});
+
+
 
 var url = new URL(window.location.href);
 var language = url.searchParams.get("language");

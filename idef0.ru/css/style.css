@@ -2,9 +2,6 @@ html, body{
     height: 100%;
     margin: 0;
  }
- 
-
-
 .codeview {
     height: 100% !important   ; /* высота нашего блока */
     width: 40%; /* ширина нашего блока */
@@ -28,8 +25,6 @@ html, body{
 .socket.list{
     background: lightskyblue
 }
- 
- 
  .control input {
     width: 150px
  }
@@ -49,8 +44,6 @@ html, body{
     height: calc(100% - 58px);  
 }
 
-
-
 #CodeWrapper {
     flex: 1;
 }
@@ -59,7 +52,6 @@ html, body{
     height: 100%;
     flex: 3;
 }
-
 
 .textik{
     color: white;

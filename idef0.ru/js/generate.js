@@ -59,8 +59,16 @@ function Generate(){
 function notification(){
 	switch($("#Change-Language")[0].selectedIndex){
 		case 0:
-		codestr = "";
-		main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
+		switch($("#Combobox")[0].selectedIndex){
+			default:
+			codestr = "";
+			main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
+			break;
+			case 1:
+			codestr = "struct Node\n{\n    int value;\n    Node *next;\n};\n\ntypedef Node *PNode;\n\n";
+			main = 'void main() {\n \tsetlocale(LC_ALL, "");\n';
+			break;
+		}		
 		break;
 		case 1:
 		predicate = "implement main\n\
@@ -90,6 +98,8 @@ function toEnd(){
 end implement main\n';
 		codestr =predicate + codestr + main;
 		break;
+		case 2:
+		break;
 	}
 }
 
@@ -97,21 +107,20 @@ function compliteData(){
 	for (var i in listAll){
 		if (Object.keys(listAll[i].data).length == 0)
 		{
-			if(find(listTemp,listAll[i]) == -1 && find(listComplited,listAll[i]) == -1)
+			if(find(listTemp,listAll[i]) == -1)
 			listTemp.push(listAll[i]);
 			while (listTemp.length != 0 && noerror)
 			{
-				noerror = recursia();
+				noerror = addData();
 			}
 		}
 		if (!noerror) return noerror;
 	}
 	listTemp = [];
-	listComplited=[];
 	return true;
  }
 
-function recursia(){
+function addData(){
 	tempNode = listTemp[listTemp.length - 1];
 	for(var j=0;j<tempNode.inputs.length && noerror;j++){
 		if (tempNode.inputs[j].connections.length == 0)
@@ -121,8 +130,6 @@ function recursia(){
 			}
 		if (Object.keys(listAll[tempNode.inputs[j].connections[0].node].data).length == 0){
 			listTemp.push(listAll[tempNode.inputs[j].connections[0].node]);
-		//	recursia(listAll[tempNode.inputs[j].connections[0].node]);
-		//	tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
 		}
 		else
 			tempNode.data[j]=listAll[tempNode.inputs[j].connections[0].node].data[tempNode.inputs[j].connections[0].output];
@@ -179,7 +186,7 @@ function tempNodeWork(){
 					 }
 			}
 		}
-		if (inputsComplited)
+		if (inputsComplited)	
 		{
 			//alert("все инпуты определены");
 			SwitchFunction(tempNode);
@@ -247,6 +254,12 @@ function SwitchWithoutInput(tempNode){
 		break;
 		case 'list_prolog':
 		main +="    "+ tempNode.data[0].toUpperCase() + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		break;
+		case 'string_c':
+		main +=  "\t" +  tempNode.dataType[0]+" "+tempNode.data[0] + ' =""'+ ";\n";
+		break;
+		case 'list_c':
+		main += "\t" + tempNode.dataType[0]+" "+tempNode.data[0] + ' = NULL'+ ";\n";
 		break;
 	} 
 }
