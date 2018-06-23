@@ -2,9 +2,9 @@ function ChangeStructure(){
     //alert("asdfasdf");
     switch(structure)
     {
-        case "0":
+        case "0": // массив
         switch(language){
-            case "0":
+            case "0": //си
             components = [arrayComp,sumComp,maxComp,minComp, delComp,kolComp,srComp, sortComp];
             menu = new D3NE.ContextMenu({
                         'Массив' : arrayComp,
@@ -18,7 +18,7 @@ function ChangeStructure(){
                });
 
             break;
-            case "1":
+            case "1": //пролог
             components = [listCompProlog,sumCompProlog,maxCompProlog,minCompProlog, delCompProlog,kolCompProlog,srCompProlog, sortCompProlog];
             menu = new D3NE.ContextMenu({
                         'Список': listCompProlog, 
@@ -34,18 +34,30 @@ function ChangeStructure(){
             }
         break;
 
-        case "1":
-            components = [listComp, sumCompList];
+        case "1": //список
+        switch(language){
+            case "0": //си
+            components = [listComp, sumCompList,maxCompList,minCompList,delCompList,kolCompList,srCompList,sortCompList];
             menu = new D3NE.ContextMenu({
                         'Список': listComp, 
                         'Сумма': sumCompList,
+                        'Максимум': maxCompList,
+                        'Минимум':minCompList,
+                        'Удаление': delCompList,
+                        'Количество': kolCompList,
+                        'Среднее' : srCompList,
+                        'Сортировка':sortCompList
             });
+            break;
+            case "2": //pascal
+            break;
+        }
         break;
 
         case "2": //строка
-        components = [listComp, sumCompList];
+        components = [stringComp, sumCompList];
             menu = new D3NE.ContextMenu({
-                        'Список': listComp, 
+                        'Строка': stringComp, 
                         'Сумма': sumCompList,
             });
         break;
@@ -194,7 +206,7 @@ var listComp = new D3NE.Component('Список',{
         return node
             .addOutput(listOut)
             .addControl(arrayControl);
- }});
+  }});
 
 var sumComp = new D3NE.Component("Сумма", {
     builder(node) {
@@ -257,36 +269,7 @@ var sumCompProlog = new D3NE.Component("Сумма", {
      .addControl(resultControl)
      .addOutput(resultOut);
     }}); 
-var sumCompList = new D3NE.Component("Сумма", {
-    builder(node) {
-        node.nameFunction = "sum";
-        node.dataType = {0:"int"};
-        node.describe = "list_c_sum";
-      var listIn = new D3NE.Input("Список", listSocket);
-      var resultOut = new D3NE.Output("Результат", numSocket);
-      var resultControl = new D3NE.Control('<input type="string">',
-            (el, c) => {
-                el.value = c.getData('0') || "имя выходного значения";
-            
-                function upd() {
-                    c.putData("0", el.value);
-                }
-    
-                el.addEventListener("input", ()=>{
-                    upd();
-                    editor.eventListener.trigger("change");
-                });
-                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
-                upd();
-            }
-        );
-    
-      return node
-         .addInput(listIn)   
-         .addControl(resultControl)
-         .addOutput(resultOut);
-    } 
-    });
+
 
 var maxComp = new D3NE.Component("Максимум", {
     builder(node) {
@@ -656,6 +639,227 @@ var sortCompProlog = new D3NE.Component("Сортировка", {
       .addInput(listIn)   
       .addOutput(listOut);
     }});
+
+
+var stringComp = new D3NE.Component('Строка',{
+    builder(node) {
+        var listOut = new D3NE.Output('Строка', listSocket);
+        var arrayControl = new D3NE.Control('<input type="string">',
+            (el, c) => {
+                el.value = c.getData('0') || "имя строки";
+            
+                function upd() {
+                    c.putData("0", el.value);
+                }
+    
+                el.addEventListener("input", ()=>{
+                    upd();
+                    editor.eventListener.trigger("change");
+                });
+                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+                upd();
+            }
+        );
+        return node
+            .addOutput(listOut)
+            .addControl(arrayControl);
+  }});
+
+var sumCompList = new D3NE.Component("Сумма", {
+    builder(node) {
+        node.nameFunction = "sum";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_sum";
+      var listIn = new D3NE.Input("Список", listSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+            (el, c) => {
+                el.value = c.getData('0') || "имя выходного значения";
+            
+                function upd() {
+                    c.putData("0", el.value);
+                }
+    
+                el.addEventListener("input", ()=>{
+                    upd();
+                    editor.eventListener.trigger("change");
+                });
+                el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+                upd();
+            }
+        );
+    
+      return node
+         .addInput(listIn)   
+         .addControl(resultControl)
+         .addOutput(resultOut);
+    } 
+    });
+
+var maxCompList = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_max";
+      var listIn = new D3NE.Input("Список", listSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(listIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompList = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_min";
+      var listIn = new D3NE.Input("Список", listSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(listIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }});
+
+var delCompList = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"PNode*"};
+        node.describe = "list_c_del";
+      var listIn = new D3NE.Input("Список", listSocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);;
+      var listOut = new D3NE.Output("Новый список", listSocket);
+
+   var listControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя нового списка";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+
+      return node
+      .addInput(listIn)   
+         .addInput(elementIn)
+         .addOutput(listOut)
+         .addControl(listControl)
+         ;
+    }});   
+
+var kolCompList = new D3NE.Component("Количество", {
+    builder(node) {
+        node.nameFunction = "kol";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_kol";
+      var listIn = new D3NE.Input("Список", listSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(listIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }});
+
+var srCompList = new D3NE.Component("Среднее", {
+    builder(node) {
+        node.nameFunction = "sra";
+        node.dataType = {0:"int"};
+        node.describe = "list_c_sr";
+      var sumIn = new D3NE.Input("Сумма", numSocket);
+      var kolIn = new D3NE.Input("Количество", numSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(sumIn)
+      .addInput(kolIn)   
+      .addOutput(resultOut)
+      .addControl(resultControl);
+    }});
+
+
+var sortCompList = new D3NE.Component("Сортировка", {
+        builder(node) {
+            node.nameFunction = "sort";
+            node.describe = "list_c_sort";
+          var listIn = new D3NE.Input("Список", listSocket);
+          var listOut = new D3NE.Output("Отсортированный список", listSocket);
+
+          return node
+          .addInput(listIn)  
+          .addOutput(listOut)  
+        }});
 
 var url = new URL(window.location.href);
 var language = url.searchParams.get("language");
