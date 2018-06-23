@@ -477,7 +477,7 @@ return 'void del(FILE *file, int &n, int elem)\n\
 }\n';
 break;
 case "binfile_c_sort":
-return 'void sort(FILE *filein, int N)\n\
+return 'void sort(FILE *filein, int &N)\n\
 {\n\
    int i = 0, pos,j;\n\
    struct Man b;\n\
