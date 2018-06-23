@@ -86,7 +86,13 @@ class predicates\n";
 function toEnd(){
 	switch($("#Change-Language")[0].selectedIndex){
 		case 0:
-		codestr += main + "\t _getch();\n}";
+		switch($("#Combobox")[0].selectedIndex){
+			case 3,4:
+			codestr += main + "\tfclose();\n"+"\t _getch();\n}";
+			break;
+			default:
+			codestr += main + "\t _getch();\n}";
+		}
 		break;
 		case 1:
 		main += '\
@@ -260,6 +266,14 @@ function SwitchWithoutInput(tempNode){
 		break;
 		case 'list_c':
 		main += "\t" + tempNode.dataType[0]+" "+tempNode.data[0] + ' = NULL'+ ";\n";
+		break;
+		case 'textFile_c':
+		main += "\t" + tempNode.dataType[0]+" "+tempNode.data[0] + ";\n";
+		main += "\tfopen_s(&" + tempNode.data[0] +"," + '"' + tempNode.data[1] + '"'+',"r+")\n';
+		break;
+		case 'binFile_c':
+		main += "\t" + tempNode.dataType[0]+" "+tempNode.data[0] + ";\n";
+		main += "\tfopen_s(&" + tempNode.data[0] +"," + '"' + tempNode.data[1] + '"'+',"r+b")\n';
 		break;
 	} 
 }

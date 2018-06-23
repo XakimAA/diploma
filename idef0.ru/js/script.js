@@ -65,17 +65,23 @@ function ChangeStructure(){
             });
         break;
         case "3": //Текстовый файл
-        components = [listComp, sumCompList];
+        components = [textFileComp, maxCompTextFile,minCompTextFile,delCompTextFile,sortCompTextFile];
             menu = new D3NE.ContextMenu({
-                        'Список': listComp, 
-                        'Сумма': sumCompList,
+                        'Файл': textFileComp, 
+                        'Максимум': maxCompTextFile,
+                        'Минимум':minCompTextFile,
+                        'Удаление': delCompTextFile,
+                        'Сортировка':sortCompTextFile
             });
         break;
         case "4": //Бинарный файл
-        components = [listComp, sumCompList];
+        components = [binFileComp, maxCompBinFile,minCompBinFile,delCompBinFile,sortCompBinFile];
             menu = new D3NE.ContextMenu({
-                        'Список': listComp, 
-                        'Сумма': sumCompList,
+                        'Файл': binFileComp, 
+                        'Максимум': maxCompBinFile,
+                        'Минимум':minCompBinFile,
+                        'Удаление': delCompBinFile,
+                        'Сортировка':sortCompBinFile
             });
         break;
         
@@ -954,19 +960,17 @@ var sortCompString = new D3NE.Component("Сортировка", {
       .addOutput(stringOut)  
     }});
 
-var textFileComp = new D3NE.Component('Массив',{
+var textFileComp = new D3NE.Component('Текстовый файл',{
     builder(node) {
-        node.nameFunction = "array_c";
-        node.dataType = {0:"int*" ,1:"int"};
-        node.describe = "mas_c_sum";
-        var sizeOut = new D3NE.Output('Размерность', numSocket);
-        var arrayOut = new D3NE.Output('Массив', arraySocket);
-        var sizeControl = new D3NE.Control('<input type="string">',
+        node.nameFunction = "textFile_c";
+        node.dataType = {0:"FILE*" ,1:"char* "};
+        var fileOut = new D3NE.Output('Имя файла', arraySocket);
+        var fileControl = new D3NE.Control('<input type="string">',
           (el, c) => {
-             el.value = c.getData('1') || "имя размерности";
+             el.value = c.getData('0') || "имя файла";
           
              function upd() {
-                c.putData("1", el.value);
+                c.putData("0", el.value);
              }
  
              el.addEventListener("input", ()=>{
@@ -977,12 +981,12 @@ var textFileComp = new D3NE.Component('Массив',{
             upd();
           }
        );
-        var arrayControl = new D3NE.Control('<input type="string">',
+        var pathControl = new D3NE.Control('<input type="string">',
         (el, c) => {
-            el.value = c.getData('0') || "имя массива";
+            el.value = c.getData('1') || "путь файла";
         
             function upd() {
-                c.putData("0", el.value);
+                c.putData("1", el.value);
             }
 
             el.addEventListener("input", ()=>{
@@ -994,15 +998,269 @@ var textFileComp = new D3NE.Component('Массив',{
         }
         );
         return node
-                .addOutput(arrayOut)
-                .addOutput(sizeOut)
-                .addControl(arrayControl)
-                .addControl(sizeControl);
+                .addOutput(fileOut)
+                .addControl(pathControl)
+                .addControl(fileControl);
                 
+    }});
+
+var maxCompTextFile = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"int"};
+        node.describe = "textfile_c_max";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(fileIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompTextFile = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"int"};
+        node.describe = "textfile_c_min";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(fileIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var delCompTextFile = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"char"};
+        node.describe = "textfile_c_del";
+      var arrayIn = new D3NE.Input("Файл", arraySocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
+      var arrayOut = new D3NE.Output("Файл", arraySocket);
+
+      return node
+      .addInput(arrayIn)   
+         .addInput(elementIn)
+         .addOutput(arrayOut)
+         ;
+    }});     
+
+var sortCompTextFile = new D3NE.Component("Сортировка", {
+    builder(node) {
+        node.nameFunction = "sort";
+        node.dataType = {0:"int ", 1:"int"};
+        node.describe = "textfile_c_sort";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var fileOut = new D3NE.Output("Файл", arraySocket);
+
+      return node
+      .addInput(fileIn)   
+      .addOutput(fileOut) 
+      ;
+    }});
+
+var binFileComp = new D3NE.Component('Бинарный файл',{
+    builder(node) {
+        node.nameFunction = "binFile_c";
+        node.dataType = {0:"FILE*" ,1:"char* ", 2: "int"};
+        var fileOut = new D3NE.Output('Файл', arraySocket);
+        var sizeOut = new D3NE.Output('Число записей', numSocket);
+        var fileControl = new D3NE.Control('<input type="string">',
+          (el, c) => {
+             el.value = c.getData('0') || "имя файла";
+          
+             function upd() {
+                c.putData("0", el.value);
+             }
+ 
+             el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+             });
+             el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+          }
+       );
+
+        var pathControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+            el.value = c.getData('2') || "путь файла";
+        
+            function upd() {
+                c.putData("2", el.value);
+            }
+
+            el.addEventListener("input", ()=>{
+                upd();
+                editor.eventListener.trigger("change");
+            });
+            el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+            upd();
+        }
+        );
+        var sizeControl = new D3NE.Control('<input type="string">',
+        (el, c) => {
+           el.value = c.getData('1') || "имя числа записей";
+        
+           function upd() {
+              c.putData("1", el.value);
+           }
+  
+           el.addEventListener("input", ()=>{
+              upd();
+              editor.eventListener.trigger("change");
+           });
+           el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+          upd();
+        }
+     );
+        return node
+                .addOutput(fileOut)
+                .addOutput(sizeOut)
+                .addControl(fileControl)
+                .addControl(sizeControl)
+                .addControl(pathControl)
+                ;
+                
+    }});
+
+var maxCompBinFile = new D3NE.Component("Максимум", {
+    builder(node) {
+        node.nameFunction = "max";
+        node.dataType = {0:"int"};
+        node.describe = "binfile_c_max";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var sizeIn = new D3NE.Input("Число записей", numSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(fileIn)   
+      .addInput(sizeIn)   
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var minCompBinFile = new D3NE.Component("Минимум", {
+    builder(node) {
+        node.nameFunction = "min";
+        node.dataType = {0:"int"};
+        node.describe = "binfile_c_min";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var sizeIn = new D3NE.Input("Число записей", numSocket);
+      var resultOut = new D3NE.Output("Результат", numSocket);
+      
+      var resultControl = new D3NE.Control('<input type="string">',
+      (el, c) => {
+         el.value = c.getData('0') || "имя выходного значения";
+      
+         function upd() {
+            c.putData("0", el.value);
+         }
+
+         el.addEventListener("input", ()=>{
+            upd();
+            editor.eventListener.trigger("change");
+         });
+         el.addEventListener("mousedown", function(e){e.stopPropagation()});// prevent node movement when selecting text in the input field
+        upd();
+      }
+   );
+      return node
+      .addInput(fileIn)   
+      .addInput(sizeIn)   
+         .addOutput(resultOut)
+         .addOutput(resultOut)
+         .addControl(resultControl);
+    }}); 
+
+var delCompBinFile = new D3NE.Component("Удаление", {  
+    builder(node) {
+        node.nameFunction = "del";
+        node.dataType = {0:"int"};
+        node.describe = "binfile_c_del";
+      var fileIn = new D3NE.Input("Файл", arraySocket);
+      var sizeIn = new D3NE.Input("Число записей", numSocket);
+      var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
+      var fileOut = new D3NE.Output("Файл", arraySocket);
+      var sizeOut = new D3NE.Output("Число записей", numSocket);
+      return node
+      .addInput(fileIn)   
+      .addInput(sizeIn)
+         .addInput(elementIn)
+         .addOutput(fileOut)
+         .addOutput(sizeOut)
+         ;
+    }});     
+
+var sortCompBinFile = new D3NE.Component("Сортировка", {
+    builder(node) {
+        node.nameFunction = "sort";
+        node.dataType = {0:"int ", 1:"int"};
+        node.describe = "textfile_c_sort";
+        var fileIn = new D3NE.Input("Файл", arraySocket);
+        var sizeIn = new D3NE.Input("Число записей", numSocket);
+        var fileOut = new D3NE.Output("Файл", arraySocket);
+        var sizeOut = new D3NE.Output("Число записей", numSocket);
+
+      return node
+      .addInput(fileIn)   
+      .addInput(sizeIn)   
+      .addOutput(fileOut) 
+      .addOutput(sizeOut) 
+      ;
     }});
 
 
 
+    
 var url = new URL(window.location.href);
 var language = url.searchParams.get("language");
 var structure = url.searchParams.get("structure");

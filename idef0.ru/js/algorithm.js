@@ -360,8 +360,9 @@ return 'void del(FILE *file, char simv)\n\
 }\n';
 break;
 case "textfile_c_sort":
-return 'void sort(FILE *filein, int lenstr, int cstr)\n\
+return 'void sort(FILE *filein)\n\
 {\n\
+   int lenstr, cstr;\n\
    char buffer[11], buffer2[11];\n\
    int i = 0;\n\
    int N = cstr;\n\
@@ -476,7 +477,7 @@ return 'void del(FILE *file, int &n, int elem)\n\
 }\n';
 break;
 case "binfile_c_sort":
-return 'void BFileBsort(FILE *filein, int N)\n\
+return 'void sort(FILE *filein, int N)\n\
 {\n\
    int i = 0, pos,j;\n\
    struct Man b;\n\
