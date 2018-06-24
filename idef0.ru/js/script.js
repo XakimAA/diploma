@@ -1658,7 +1658,7 @@ var maxCompPascalList = new D3NE.Component("Максимум", {
         node.nameFunction = "max";
         node.dataType = {0:"integer"};
         node.describe = "list_pascal_max";
-      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var arrayIn = new D3NE.Input("Список", listSocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
       var resultControl = new D3NE.Control('<input type="string">',
       (el, c) => {
@@ -1717,9 +1717,9 @@ var delCompPascalList = new D3NE.Component("Удаление", {
     builder(node) {
         node.nameFunction = "del";
         node.describe = "list_pascal_del";
-      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var arrayIn = new D3NE.Input("Список", listSocket);
       var elementIn = new D3NE.Input("Удаляемый элемент", numSocket);
-      var arrayOut = new D3NE.Output("Cписок", arraySocket);
+      var arrayOut = new D3NE.Output("Cписок", listSocket);
 
       return node
       .addInput(arrayIn)   
@@ -1733,7 +1733,7 @@ var kolCompPascalList = new D3NE.Component("Количество", {
         node.nameFunction = "kol";
         node.dataType = {0:"integer"};
         node.describe = "list_pascal_kol";
-      var arrayIn = new D3NE.Input("Список", arraySocket);
+      var arrayIn = new D3NE.Input("Список", listSocket);
       var resultOut = new D3NE.Output("Результат", numSocket);
       var resultControl = new D3NE.Control('<input type="string">',
       (el, c) => {
@@ -1792,8 +1792,8 @@ var sortCompPascalList = new D3NE.Component("Сортировка", {
     builder(node) {
         node.nameFunction = "sort";
         node.describe = "list_pascal_sort";
-      var arrayIn = new D3NE.Input("Список", arraySocket);
-      var arrayOut = new D3NE.Output("Список", arraySocket);
+      var arrayIn = new D3NE.Input("Список", listSocket);
+      var arrayOut = new D3NE.Output("Список", listSocket);
       function upd() {
           var inputmas = node.toJSON().inputs[0].connections[0];
           var inputsize = node.toJSON().inputs[1].connections[0];

@@ -79,6 +79,37 @@ class predicates\n";
     run() :-\n\
     init(),\n"
 		break;
+		case 2:
+		
+		switch($("#Combobox")[0].selectedIndex){
+			case 1:
+			predicate = "program;\n\
+	type\n\
+	Node = Record value: Integer;\n    next: ^Node End;\n\
+			var\n";
+			break;
+			case 3:
+			predicate = "program;\n\
+type\n\
+type str = string [11];\n\
+var\n";
+			break;
+			case 4:
+			predicate = "program;\n\
+	type Data =record  \n\
+	day : integer;\n\
+	mes : integer;\n\
+	god : integer;\n\
+	end;\n\
+			var\n";
+			default:
+			predicate = "program;\n var\n";
+			
+			break;
+		}	
+		codestr = "";
+		main = "Begin\n";
+		break;
 	}
 
 }
@@ -105,6 +136,8 @@ end implement main\n';
 		codestr =predicate + codestr + main;
 		break;
 		case 2:
+		main += "END.\n"
+		codestr =predicate + codestr + main;
 		break;
 	}
 }
@@ -248,6 +281,26 @@ function SwitchFunction(tempNode){
 			}
 			main +="),\n";
 		break;
+		case 2:
+			if (tempNode.controls != 0)
+			for (var i in tempNode.data)
+			{
+				predicate +=tempNode.data[i]  + ":" +  tempNode.dataType[i] + ";\n";
+			}
+			codestr +=code(tempNode.describe);
+			main +="    " +tempNode.nameFunction + "(";
+			for (var i=0; i<tempNode.inputs.length;i++)
+			{
+				if (i != 0) main += ", ";
+				main += listAll[tempNode.inputs[i].connections[0].node].data[tempNode.inputs[i].connections[0].output];
+			}
+			if (tempNode.controls != 0)
+			for (var i in tempNode.data)
+			{
+				main += ", " + tempNode.data[i];
+			}
+			main += ");\n";
+		break;
 		}
 }
 
@@ -276,17 +329,27 @@ function SwitchWithoutInput(tempNode){
 		main += "\tfopen_s(&" + tempNode.data[0] +"," + '"' + tempNode.data[1] + '"'+',"r+b")\n';
 		break;
 		case 'list_pascal':
-		main +="    "+ tempNode.data[0]+ "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		predicate += tempNode.data[0]+" : " + tempNode.dataType[0] + ";\n";
+		main +="    "+ tempNode.data[0]+ ":=nil;\n";
 		break;
 		case 'array_pascal':
-		main +="    "+ tempNode.data[0] + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		predicate += tempNode.data[0]+" : " + tempNode.dataType[0] + ";\n";
+		predicate += tempNode.data[1]+" : " + tempNode.dataType[1] + ";\n";
+		main +="    "+tempNode.dataType[1]+":=N;\n" + "    setlength("+tempNode.data[0]+"," + tempNode.dataType[1] + "+1);\n";
 		break;
 		case 'string_pascal':
-		main +="    "+ tempNode.data[0] + "=[1, 2, 3, 4, 5, 20, 9, 10, 18, 1],\n";
+		predicate += tempNode.data[0]+" : " + tempNode.dataType[0] + ";\n";
+		main +="    readln("+ tempNode.data[0] + ");\n";
 		break;
 		case 'textFile_pascal':
+		predicate += tempNode.data[0]+" : " + tempNode.dataType[0] + ";\n";
 		main +="    assing("+ tempNode.data[0] +",'"+ tempNode.data[1]+ "');\n";
-		main+="    reset("+tempNode.data[0] +");\nreadfile(" + tempNode.data[0] +");\n";
+		main+="    reset("+tempNode.data[0] +");\n    readfile(" + tempNode.data[0] +");\n";
+		break;
+		case 'binFile_pascal':
+		predicate += tempNode.data[0]+" : " + tempNode.dataType[0] + ";\n";
+		main +="    assing("+ tempNode.data[0] +",'"+ tempNode.data[1]+ "');\n";
+		main+="    reset("+tempNode.data[0] +");\n    readfile(" + tempNode.data[0] +");\n";
 		break;
 	} 
 }
