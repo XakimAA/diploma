@@ -755,9 +755,10 @@ if (pos(podstr,s) <> 0) then \n\
 end;\n";
 break;
 case "string_pascal_sort":
-return "procedure sort(var s:string; n:integer);\n\
-var i, j, t : integer;\n\
+return "procedure sort(var s:string);\n\
+var i, j, t,n : integer;\n\
 begin\n\
+  n:=length(s);\n\
    for i := 0 to n-1 do\n\
       for j := 0 to n-1 do\n\
       if (s[j+1] < s[j]) then\n\
@@ -885,7 +886,7 @@ case "binfile_pascal_sum":
 return "";
 break;
 case "binfile_pascal_max":
-return "procedure max(f:file, var max:integer);\n\
+return "procedure max(f:file;n: integer; var max:integer);\n\
 var\n\
 i : integer;\n\
 t: Man;\n\
@@ -902,7 +903,7 @@ for i:=1 to n-1 do\n\
 end;\n";
 break;
 case "binfile_pascal_min":
-return "procedure min(f:file,var min:integer);\n\
+return "procedure min(f:file; n: integer; var min:integer);\n\
 var\n\
 i : integer;\n\
 t: Man;\n\
@@ -919,7 +920,7 @@ for i:=1 to n-1 do\n\
 end;\n";
 break;
 case "binfile_pascal_del":
-return "procedure del(f : file; c : integer; var n: integer);\n\
+return "procedure del(f : file;  var n: integer; c : integer);\n\
 var\n\
 f2 : file;\n\
 k : integer;\n\
